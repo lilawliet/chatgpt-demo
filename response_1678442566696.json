@@ -1,0 +1,17 @@
+{
+  "id": "chatcmpl-6sTsDxxA0eeQNAtQSlvtbHilkC6XW",
+  "object": "chat.completion",
+  "created": 1678442565,
+  "model": "gpt-3.5-turbo-0301",
+  "usage": { "prompt_tokens": 15, "completion_tokens": 16, "total_tokens": 31 },
+  "choices": [
+    {
+      "message": {
+        "role": "assistant",
+        "content": "\n\n我是AI语言模型，我可以说中文。"
+      },
+      "finish_reason": null,
+      "index": 0
+    }
+  ]
+}
