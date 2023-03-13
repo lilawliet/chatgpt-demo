@@ -5,7 +5,7 @@ import fs from "fs";
 import stringify from "json-stringify-safe";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 import { Configuration, OpenAIApi } from "openai";
 const configuration = new Configuration({
   organization: "org-RaKLyo4NeCHGWzbKdTtUTcHd",
@@ -14,7 +14,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 const response = await openai.listEngines();
 
-const prompt = "Hello, how are you?";
+const prompt = "用中文解释一下你的模型有哪些分别擅长什么技能？";
 
 const options = {
   hostname: "api.openai.com",
@@ -31,7 +31,7 @@ const postData = JSON.stringify({
   messages: [
     {
       role: "user",
-      content: "与你一个用户角色的会话上下文保留多久？可以设置吗？",
+      content: prompt,
     },
   ],
   temperature: 0.7,
@@ -63,7 +63,18 @@ const req = https.request(options, (res) => {
       opt,
       (err) => {
         if (err) {
-          console.error(err);
+          fs.writeFileSync(
+            `${__dirname}/error_response_error_${new Date()
+              .toISOString()
+              .replace(/(-|,|:|\.)/g, "")}.json`,
+            stringify(err),
+            opt,
+            (err) => {
+              if (err) {
+                console.error(err);
+              }
+            }
+          );
         }
       }
     );
@@ -71,7 +82,18 @@ const req = https.request(options, (res) => {
 });
 
 req.on("error", (error) => {
-  console.error(error);
+  fs.writeFileSync(
+    `${__dirname}/error_response_${new Date()
+      .toISOString()
+      .replace(/(-|,|:|\.)/g, "")}.json`,
+    stringify(error),
+    opt,
+    (err) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
 });
 
 req.write(postData);
